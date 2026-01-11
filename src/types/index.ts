@@ -4,3 +4,13 @@ export interface IntegrationService {
     description: string;
     icon: string;
 }
+
+export interface Connection {
+    id: string | number;
+    integration: string;
+    name: string;
+    source: string;
+    entity: string;
+    interval: string;
+    icon: string;
+}

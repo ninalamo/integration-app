@@ -1,24 +1,33 @@
 import { useEffect, useState } from 'react';
 import { getApiUrl } from '../services/api';
 import ServiceCard from '../components/ServiceCard';
-import type { IntegrationService } from '../types';
+import type { IntegrationService, Connection } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faExternalLinkAlt, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Integrations() {
     const [services, setServices] = useState<IntegrationService[]>([]);
+    const [connections, setConnections] = useState<Connection[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchServices = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch(getApiUrl('/connectors'));
-                if (!response.ok) {
-                    throw new Error('Failed to fetch services');
+                const [servicesRes, connectionsRes] = await Promise.all([
+                    fetch(getApiUrl('/connectors')),
+                    fetch(getApiUrl('/connections'))
+                ]);
+
+                if (!servicesRes.ok || !connectionsRes.ok) {
+                    throw new Error('Failed to fetch data');
                 }
-                const data = await response.json();
-                setServices(data);
+
+                const servicesData = await servicesRes.json();
+                const connectionsData = await connectionsRes.json();
+
+                setServices(servicesData);
+                setConnections(connectionsData);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
             } finally {
@@ -26,23 +35,13 @@ export default function Integrations() {
             }
         };
 
-        fetchServices();
+        fetchData();
     }, []);
 
     if (loading) return <div className="p-6 text-gray-500">Loading services...</div>;
     if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
 
-    // Mock data for existing connections
-    const existingConnections = [
-        { id: 1, integration: 'Amazon QuickSight', name: 'Energy', source: 'Carbon', entity: 'ABC Group LTD - Energy', interval: '-', icon: '/images/image 348.png' },
-        { id: 2, integration: 'Amazon QuickSight', name: 'Logistics', source: 'Carbon', entity: 'ABC Group LTD - Logistics', interval: '-', icon: '/images/image 348.png' },
-        { id: 3, integration: 'Amazon QuickSight', name: 'Operations', source: 'Carbon', entity: 'ABC Group LTD - Operations', interval: '-', icon: '/images/image 348.png' },
-        { id: 4, integration: 'Amazon QuickSight', name: 'Electricity ToU', source: 'Utility', entity: '135 Albert St - Electricity', interval: 'ToU', icon: '/images/image 348.png' },
-        { id: 5, integration: 'Amazon QuickSight', name: 'Water', source: 'Utility', entity: '135 Albert St - Water', interval: 'Monthly', icon: '/images/image 348.png' },
-        { id: 6, integration: 'Kafka', name: 'ABC Group Logs', source: 'Carbon', entity: 'ABC Group LTD', interval: '-', icon: '/images/image 348 copy.png' },
-        { id: 7, integration: 'Zapier', name: 'ABC Group Leads', source: 'Carbon', entity: 'ABC Group LTD', interval: '-', icon: '/images/image 351.png' },
-        { id: 8, integration: 'Zapier', name: '135 Albert St Gas', source: 'Utility', entity: '135 Albert St - Gas', interval: 'Yearly', icon: '/images/image 351.png' },
-    ];
+
 
     return (
         <div className="max-w-7xl mx-auto">
@@ -100,7 +99,7 @@ export default function Integrations() {
 
                     {/* Rows */}
                     <div className="divide-y divide-gray-200">
-                        {existingConnections.map((conn) => (
+                        {connections.map((conn) => (
                             <div key={conn.id} className="px-6 py-4 grid grid-cols-12 gap-4 items-center hover:bg-gray-50 transition-colors text-sm text-gray-700">
                                 {/* Integration */}
                                 <div className="col-span-3 flex items-center gap-3">

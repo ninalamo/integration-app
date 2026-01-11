@@ -36,5 +36,79 @@
             "description": "Enable the push and pull of data to and from Measurabl via an API.",
             "icon": "/images/measurabl_icon.jpeg.png"
         }
+    ],
+    "connections": [
+        {
+            "id": 1,
+            "integration": "Amazon QuickSight",
+            "name": "Energy",
+            "source": "Carbon",
+            "entity": "ABC Group LTD - Energy",
+            "interval": "-",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 2,
+            "integration": "Amazon QuickSight",
+            "name": "Logistics",
+            "source": "Carbon",
+            "entity": "ABC Group LTD - Logistics",
+            "interval": "-",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 3,
+            "integration": "Amazon QuickSight",
+            "name": "Operations",
+            "source": "Carbon",
+            "entity": "ABC Group LTD - Operations",
+            "interval": "-",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 4,
+            "integration": "Amazon QuickSight",
+            "name": "Electricity ToU",
+            "source": "Utility",
+            "entity": "135 Albert St - Electricity",
+            "interval": "ToU",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 5,
+            "integration": "Amazon QuickSight",
+            "name": "Water",
+            "source": "Utility",
+            "entity": "135 Albert St - Water",
+            "interval": "Monthly",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 6,
+            "integration": "Kafka",
+            "name": "ABC Group Logs",
+            "source": "Carbon",
+            "entity": "ABC Group LTD",
+            "interval": "-",
+            "icon": "/images/image 348 copy.png"
+        },
+        {
+            "id": 7,
+            "integration": "Zapier",
+            "name": "ABC Group Leads",
+            "source": "Carbon",
+            "entity": "ABC Group LTD",
+            "interval": "-",
+            "icon": "/images/image 351.png"
+        },
+        {
+            "id": 8,
+            "integration": "Zapier",
+            "name": "135 Albert St Gas",
+            "source": "Utility",
+            "entity": "135 Albert St - Gas",
+            "interval": "Yearly",
+            "icon": "/images/image 351.png"
+        }
     ]
 }
