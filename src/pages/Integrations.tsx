@@ -5,6 +5,7 @@ import type { IntegrationService, Connection } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faExternalLinkAlt, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
+import EditConfirmationModal from '../components/EditConfirmationModal';
 
 export default function Integrations() {
     const [services, setServices] = useState<IntegrationService[]>([]);
@@ -23,8 +24,9 @@ export default function Integrations() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
 
-    // Delete Modal State
+    // Modals State
     const [connectionToDelete, setConnectionToDelete] = useState<Connection | null>(null);
+    const [connectionToEdit, setConnectionToEdit] = useState<Connection | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -112,6 +114,18 @@ export default function Integrations() {
             console.error('Failed to delete connection:', err);
             // In a real app, you might show an error toast here
         }
+    };
+
+    // Edit Handlers
+    const handleEditClick = (connection: Connection) => {
+        setConnectionToEdit(connection);
+    };
+
+    const handleConfirmEdit = () => {
+        // Here you would typically navigate to an edit page or open another modal for editing
+        // For now, we'll just close the confirmation modal as per the requirement
+        console.log('Confirmed edit for:', connectionToEdit?.name);
+        setConnectionToEdit(null);
     };
 
     // Helper to render sort arrow
@@ -241,7 +255,10 @@ export default function Integrations() {
                                     </div>
 
                                     <div className="flex items-center gap-2">
-                                        <button className="text-gray-400 hover:text-gray-600 border border-gray-300 rounded p-1 h-7 w-7 flex items-center justify-center">
+                                        <button
+                                            onClick={() => handleEditClick(conn)}
+                                            className="text-gray-400 hover:text-gray-600 border border-gray-300 rounded p-1 h-7 w-7 flex items-center justify-center"
+                                        >
                                             <FontAwesomeIcon icon={faPen} className="text-xs" />
                                         </button>
                                         <button
@@ -292,13 +309,21 @@ export default function Integrations() {
                 </div>
             </section>
 
-            {/* Delete Modal */}
+            {/* Modals */}
             <DeleteConfirmationModal
                 isOpen={!!connectionToDelete}
                 onClose={() => setConnectionToDelete(null)}
                 onConfirm={handleConfirmDelete}
                 connectionName={connectionToDelete?.name || ''}
                 integrationName={connectionToDelete?.integration || ''}
+            />
+
+            <EditConfirmationModal
+                isOpen={!!connectionToEdit}
+                onClose={() => setConnectionToEdit(null)}
+                onConfirm={handleConfirmEdit}
+                connectionName={connectionToEdit?.name || ''}
+                integrationName={connectionToEdit?.integration || ''}
             />
         </div>
     );
