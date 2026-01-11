@@ -17,6 +17,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
 
 export default function SecondarySidebar() {
     return (
@@ -124,31 +125,31 @@ export default function SecondarySidebar() {
 
                 {/* Organisation Section */}
                 <MenuSection title="Organisation">
-                    <MenuItem icon={faHome} label="Manage" />
-                    <MenuItem icon={faUsers} label="Users" />
-                    <MenuItem icon={faTags} label="Tags" />
-                    <MenuItem icon={faPuzzlePiece} label="Integrations" active />
+                    <MenuItem icon={faHome} label="Manage" to="/settings/organisation" />
+                    <MenuItem icon={faUsers} label="Users" to="/settings/users" />
+                    <MenuItem icon={faTags} label="Tags" to="/settings/tags" />
+                    <MenuItem icon={faPuzzlePiece} label="Integrations" to="/settings/integrations" />
                 </MenuSection>
 
                 {/* Utilities Section */}
                 <MenuSection title="Utilities">
-                    <MenuItem icon={faCog} label="Configuration" />
-                    <MenuItem icon={faSitemap} label="Hierarchy" />
-                    <MenuItem icon={faBuilding} label="Assets" />
+                    <MenuItem icon={faCog} label="Configuration" to="/settings/utilities/configuration" />
+                    <MenuItem icon={faSitemap} label="Hierarchy" to="/settings/utilities/hierarchy" />
+                    <MenuItem icon={faBuilding} label="Assets" to="/settings/utilities/assets" />
                 </MenuSection>
 
                 {/* Carbon Section */}
                 <MenuSection title="Carbon">
-                    <MenuItem icon={faCog} label="Configuration" />
-                    <MenuItem icon={faSitemap} label="Hierarchy" />
-                    <MenuItem icon={faList} label="Inventory Items" />
-                    <MenuItem icon={faLeaf} label="Emission Factors" />
-                    <MenuItem icon={faCamera} label="Snapshots" />
+                    <MenuItem icon={faCog} label="Configuration" to="/settings/carbon/configuration" />
+                    <MenuItem icon={faSitemap} label="Hierarchy" to="/settings/carbon/hierarchy" />
+                    <MenuItem icon={faList} label="Inventory Items" to="/settings/carbon/inventory-items" />
+                    <MenuItem icon={faLeaf} label="Emission Factors" to="/settings/carbon/emission-factors" />
+                    <MenuItem icon={faCamera} label="Snapshots" to="/settings/carbon/snapshots" />
                 </MenuSection>
 
                 {/* Displays Section */}
                 <MenuSection title="Displays">
-                    <MenuItem icon={faDesktop} label="Manage" />
+                    <MenuItem icon={faDesktop} label="Manage" to="/settings/displays/manage" />
                 </MenuSection>
 
             </div>
@@ -167,19 +168,24 @@ function MenuSection({ title, children }: { title: string; children: React.React
     );
 }
 
-function MenuItem({ icon, label, active = false }: { icon: any; label: string; active?: boolean }) {
+function MenuItem({ icon, label, to }: { icon: any; label: string; to: string }) {
     return (
-        <div
-            className={`
+        <NavLink
+            to={to}
+            className={({ isActive }) => `
         flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer transition-colors
-        ${active
+        ${isActive
                     ? 'bg-[#66bb00] text-white shadow-sm'
                     : 'text-gray-600 hover:bg-gray-100'
                 }
       `}
         >
-            <FontAwesomeIcon icon={icon} className={`w-4 h-4 ${active ? 'text-white' : 'text-gray-400'}`} />
-            <span className="text-sm font-medium">{label}</span>
-        </div>
+            {({ isActive }) => (
+                <>
+                    <FontAwesomeIcon icon={icon} className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+                    <span className="text-sm font-medium">{label}</span>
+                </>
+            )}
+        </NavLink>
     );
 }

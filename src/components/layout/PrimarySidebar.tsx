@@ -30,9 +30,11 @@ export default function PrimarySidebar() {
             </nav>
 
             <div className="mt-auto mb-4">
-                <NavLink to="/settings/integrations">
-                    {({ isActive }: { isActive: boolean }) => (
-                        <SidebarIcon icon={faCog} label="Settings" active={isActive} />
+                <NavLink to="/settings/integrations" className={({ isActive }) =>
+                    isActive || window.location.pathname.startsWith('/settings') ? 'active-link' : ''
+                }>
+                    {({ isActive }) => (
+                        <SidebarIcon icon={faCog} label="Settings" active={isActive || window.location.pathname.startsWith('/settings')} />
                     )}
                 </NavLink>
             </div>
