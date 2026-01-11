@@ -4,6 +4,7 @@ import ServiceCard from '../components/ServiceCard';
 import type { IntegrationService, Connection } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faExternalLinkAlt, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
 
 export default function Integrations() {
     const [services, setServices] = useState<IntegrationService[]>([]);
@@ -21,6 +22,9 @@ export default function Integrations() {
     // Pagination State
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
+
+    // Delete Modal State
+    const [connectionToDelete, setConnectionToDelete] = useState<Connection | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -87,6 +91,27 @@ export default function Integrations() {
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
+    };
+
+    // Delete Handlers
+    const handleDeleteClick = (connection: Connection) => {
+        setConnectionToDelete(connection);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!connectionToDelete) return;
+
+        try {
+            await fetch(getApiUrl(`/connections/${connectionToDelete.id}`), {
+                method: 'DELETE',
+            });
+
+            setConnections((prev) => prev.filter((c) => c.id !== connectionToDelete.id));
+            setConnectionToDelete(null);
+        } catch (err) {
+            console.error('Failed to delete connection:', err);
+            // In a real app, you might show an error toast here
+        }
     };
 
     // Helper to render sort arrow
@@ -219,7 +244,10 @@ export default function Integrations() {
                                         <button className="text-gray-400 hover:text-gray-600 border border-gray-300 rounded p-1 h-7 w-7 flex items-center justify-center">
                                             <FontAwesomeIcon icon={faPen} className="text-xs" />
                                         </button>
-                                        <button className="text-white bg-red-400 hover:bg-red-500 rounded p-1 h-7 w-7 flex items-center justify-center shadow-sm">
+                                        <button
+                                            onClick={() => handleDeleteClick(conn)}
+                                            className="text-white bg-red-400 hover:bg-red-500 rounded p-1 h-7 w-7 flex items-center justify-center shadow-sm"
+                                        >
                                             <FontAwesomeIcon icon={faTrash} className="text-xs" />
                                         </button>
                                     </div>
@@ -263,6 +291,15 @@ export default function Integrations() {
                     )}
                 </div>
             </section>
+
+            {/* Delete Modal */}
+            <DeleteConfirmationModal
+                isOpen={!!connectionToDelete}
+                onClose={() => setConnectionToDelete(null)}
+                onConfirm={handleConfirmDelete}
+                connectionName={connectionToDelete?.name || ''}
+                integrationName={connectionToDelete?.integration || ''}
+            />
         </div>
     );
 }
