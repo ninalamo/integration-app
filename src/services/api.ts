@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+import { API_ENDPOINTS } from '../constants';
 
 /**
  * Helper to get the full API URL for an endpoint.
@@ -7,7 +7,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
  */
 export const getApiUrl = (endpoint: string): string => {
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    return `${API_URL}${cleanEndpoint}`;
+    return `${API_ENDPOINTS.BASE_URL}${cleanEndpoint}`;
 };
 
-export default API_URL;
+export default API_ENDPOINTS.BASE_URL;

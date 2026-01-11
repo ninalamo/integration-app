@@ -7,6 +7,7 @@ import { faSearch, faExternalLinkAlt, faPen } from '@fortawesome/free-solid-svg-
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
 import EditConfirmationModal from '../components/EditConfirmationModal';
+import { API_ENDPOINTS, SOURCE_TYPES, DELAY_MS, SORT_DIRECTION } from '../constants';
 
 export default function Integrations() {
     const [services, setServices] = useState<IntegrationService[]>([]);
@@ -17,9 +18,9 @@ export default function Integrations() {
 
     // Sorting and Filtering State
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortConfig, setSortConfig] = useState<{ key: keyof Connection | null; direction: 'asc' | 'desc' }>({
+    const [sortConfig, setSortConfig] = useState<{ key: keyof Connection | null; direction: typeof SORT_DIRECTION.ASC | typeof SORT_DIRECTION.DESC }>({
         key: 'integration',
-        direction: 'asc',
+        direction: SORT_DIRECTION.ASC,
     });
 
     // Pagination State
@@ -35,8 +36,8 @@ export default function Integrations() {
 
         const fetchServices = async () => {
             try {
-                await delay(1500); // Simulate slow loading
-                const res = await fetch(getApiUrl('/connectors'));
+                await delay(DELAY_MS.SERVICES);
+                const res = await fetch(getApiUrl(API_ENDPOINTS.CONNECTORS));
                 if (!res.ok) throw new Error('Failed to fetch services');
                 const data = await res.json();
                 setServices(data);
@@ -49,8 +50,8 @@ export default function Integrations() {
 
         const fetchConnections = async () => {
             try {
-                await delay(3000); // Simulate even slower loading
-                const res = await fetch(getApiUrl('/connections'));
+                await delay(DELAY_MS.CONNECTIONS);
+                const res = await fetch(getApiUrl(API_ENDPOINTS.CONNECTIONS));
                 if (!res.ok) throw new Error('Failed to fetch connections');
                 const data = await res.json();
                 setConnections(data);
@@ -67,9 +68,9 @@ export default function Integrations() {
 
     // Handle Sorting
     const handleSort = (key: keyof Connection) => {
-        let direction: 'asc' | 'desc' = 'asc';
-        if (sortConfig.key === key && sortConfig.direction === 'asc') {
-            direction = 'desc';
+        let direction: typeof SORT_DIRECTION.ASC | typeof SORT_DIRECTION.DESC = SORT_DIRECTION.ASC;
+        if (sortConfig.key === key && sortConfig.direction === SORT_DIRECTION.ASC) {
+            direction = SORT_DIRECTION.DESC;
         }
         setSortConfig({ key, direction });
     };
@@ -87,10 +88,10 @@ export default function Integrations() {
         const bValue = b[sortConfig.key];
 
         if (String(aValue).toLowerCase() < String(bValue).toLowerCase()) {
-            return sortConfig.direction === 'asc' ? -1 : 1;
+            return sortConfig.direction === SORT_DIRECTION.ASC ? -1 : 1;
         }
         if (String(aValue).toLowerCase() > String(bValue).toLowerCase()) {
-            return sortConfig.direction === 'asc' ? 1 : -1;
+            return sortConfig.direction === SORT_DIRECTION.ASC ? 1 : -1;
         }
         return 0;
     });
@@ -141,7 +142,7 @@ export default function Integrations() {
     // Helper to render sort arrow
     const renderSortIcon = (key: keyof Connection) => {
         if (sortConfig.key !== key) return null;
-        return <span className="ml-1">{sortConfig.direction === 'asc' ? '↑' : '↓'}</span>;
+        return <span className="ml-1">{sortConfig.direction === SORT_DIRECTION.ASC ? '↑' : '↓'}</span>;
     };
 
     // Reset pagination when search changes
@@ -283,11 +284,11 @@ export default function Integrations() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${conn.source === 'Carbon'
+                                                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${conn.source === SOURCE_TYPES.CARBON
                                                     ? 'bg-orange-50 text-orange-700 border-orange-100'
                                                     : 'bg-emerald-50 text-emerald-700 border-emerald-100'
                                                     }`}>
-                                                    <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${conn.source === 'Carbon' ? 'bg-orange-400' : 'bg-emerald-400'}`}></span>
+                                                    <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${conn.source === SOURCE_TYPES.CARBON ? 'bg-orange-400' : 'bg-emerald-400'}`}></span>
                                                     {conn.source}
                                                 </span>
                                             </td>
