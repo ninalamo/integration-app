@@ -209,7 +209,7 @@ export default function Integrations() {
 
             {/* Existing Connections Section */}
             <section className="pb-20">
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                <div className="mb-6 space-y-4 text-left">
                     <h2 className="text-lg font-bold text-gray-900">Existing Connections</h2>
 
                     {/* Search */}
