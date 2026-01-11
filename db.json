@@ -109,6 +109,204 @@
             "entity": "135 Albert St - Gas",
             "interval": "Yearly",
             "icon": "/images/image 351.png"
+        },
+        {
+            "id": 9,
+            "integration": "Amazon QuickSight",
+            "name": "Energy Gen 2",
+            "source": "Carbon",
+            "entity": "ABC Group LTD - Energy 2",
+            "interval": "-",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 10,
+            "integration": "Power BI",
+            "name": "Financials",
+            "source": "Finance",
+            "entity": "ABC Group LTD - Finance",
+            "interval": "Quarterly",
+            "icon": "/images/image 348 copy 2.png"
+        },
+        {
+            "id": 11,
+            "integration": "Tableau",
+            "name": "HR Analytics",
+            "source": "HR",
+            "entity": "ABC Group LTD - HR",
+            "interval": "Monthly",
+            "icon": "/images/snowflake_icon.png.png"
+        },
+        {
+            "id": 12,
+            "integration": "Measurabl",
+            "name": "ESG Reporting",
+            "source": "Carbon",
+            "entity": "ABC Group LTD - ESG",
+            "interval": "Yearly",
+            "icon": "/images/measurabl_icon.jpeg.png"
+        },
+        {
+            "id": 13,
+            "integration": "Amazon QuickSight",
+            "name": "Site A Operations",
+            "source": "Operations",
+            "entity": "Site A",
+            "interval": "Daily",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 14,
+            "integration": "Kafka",
+            "name": "Sensor Stream A",
+            "source": "Utility",
+            "entity": "Building A",
+            "interval": "Real-time",
+            "icon": "/images/image 348 copy.png"
+        },
+        {
+            "id": 15,
+            "integration": "Zapier",
+            "name": "Lead Gen A",
+            "source": "Sales",
+            "entity": "Sales Dept",
+            "interval": "-",
+            "icon": "/images/image 351.png"
+        },
+        {
+            "id": 16,
+            "integration": "Amazon QuickSight",
+            "name": "Energy Gen 3",
+            "source": "Carbon",
+            "entity": "ABC Group LTD - Energy 3",
+            "interval": "-",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 17,
+            "integration": "Amazon QuickSight",
+            "name": "Logistics Gen 2",
+            "source": "Carbon",
+            "entity": "ABC Group LTD - Logistics 2",
+            "interval": "-",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 18,
+            "integration": "Power BI",
+            "name": "Marketing Stats",
+            "source": "Marketing",
+            "entity": "Global Marketing",
+            "interval": "Weekly",
+            "icon": "/images/image 348 copy 2.png"
+        },
+        {
+            "id": 19,
+            "integration": "Tableau",
+            "name": "Supply Chain",
+            "source": "Logistics",
+            "entity": "Global Logistics",
+            "interval": "Daily",
+            "icon": "/images/snowflake_icon.png.png"
+        },
+        {
+            "id": 20,
+            "integration": "Measurabl",
+            "name": "GRESB Export",
+            "source": "Carbon",
+            "entity": "Portfolio A",
+            "interval": "Yearly",
+            "icon": "/images/measurabl_icon.jpeg.png"
+        },
+        {
+            "id": 21,
+            "integration": "Amazon QuickSight",
+            "name": "Water Site B",
+            "source": "Utility",
+            "entity": "Site B",
+            "interval": "Monthly",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 22,
+            "integration": "Kafka",
+            "name": "Sensor Stream B",
+            "source": "Utility",
+            "entity": "Building B",
+            "interval": "Real-time",
+            "icon": "/images/image 348 copy.png"
+        },
+        {
+            "id": 23,
+            "integration": "Zapier",
+            "name": "Notifications",
+            "source": "IT",
+            "entity": "IT Ops",
+            "interval": "-",
+            "icon": "/images/image 351.png"
+        },
+        {
+            "id": 24,
+            "integration": "Amazon QuickSight",
+            "name": "Waste Mgmt",
+            "source": "Carbon",
+            "entity": "Facilities",
+            "interval": "Monthly",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 25,
+            "integration": "Power BI",
+            "name": "Exec Summary",
+            "source": "Admin",
+            "entity": "Board",
+            "interval": "Monthly",
+            "icon": "/images/image 348 copy 2.png"
+        },
+        {
+            "id": 26,
+            "integration": "Tableau",
+            "name": "Customer Churn",
+            "source": "Sales",
+            "entity": "Sales Global",
+            "interval": "Weekly",
+            "icon": "/images/snowflake_icon.png.png"
+        },
+        {
+            "id": 27,
+            "integration": "Measurabl",
+            "name": "CDP Report",
+            "source": "Carbon",
+            "entity": "Corporate",
+            "interval": "Yearly",
+            "icon": "/images/measurabl_icon.jpeg.png"
+        },
+        {
+            "id": 28,
+            "integration": "Amazon QuickSight",
+            "name": "Fleet Fuel",
+            "source": "Carbon",
+            "entity": "Transport Div",
+            "interval": "Weekly",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": 29,
+            "integration": "Kafka",
+            "name": "Access Logs",
+            "source": "Security",
+            "entity": "HQ",
+            "interval": "Real-time",
+            "icon": "/images/image 348 copy.png"
+        },
+        {
+            "id": 30,
+            "integration": "Zapier",
+            "name": "Ticket Sync",
+            "source": "Support",
+            "entity": "Helpdesk",
+            "interval": "-",
+            "icon": "/images/image 351.png"
         }
     ]
 }

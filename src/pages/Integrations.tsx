@@ -18,6 +18,10 @@ export default function Integrations() {
         direction: 'asc',
     });
 
+    // Pagination State
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -75,11 +79,26 @@ export default function Integrations() {
         return 0;
     });
 
+    // Pagination Logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = sortedConnections.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(sortedConnections.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+
     // Helper to render sort arrow
     const renderSortIcon = (key: keyof Connection) => {
         if (sortConfig.key !== key) return null;
         return <span className="ml-1">{sortConfig.direction === 'asc' ? '↑' : '↓'}</span>;
     };
+
+    // Reset pagination when search changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
 
     if (loading) return <div className="p-6 text-gray-500">Loading services...</div>;
     if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
@@ -149,7 +168,7 @@ export default function Integrations() {
 
                     {/* Rows */}
                     <div className="divide-y divide-gray-200">
-                        {sortedConnections.map((conn) => (
+                        {currentItems.map((conn) => (
                             <div key={conn.id} className="px-6 py-4 grid grid-cols-12 gap-4 items-center hover:bg-gray-50 transition-colors text-sm text-gray-700">
                                 {/* Integration */}
                                 <div className="col-span-3 flex items-center gap-3">
@@ -210,21 +229,38 @@ export default function Integrations() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-center gap-2">
-                        <button className="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">
-                            ← Previous
-                        </button>
-                        <button className="px-3 py-1 bg-gray-100 rounded-md text-sm font-medium text-gray-700">1</button>
-                        <button className="px-3 py-1 text-sm text-gray-500 hover:bg-gray-50">2</button>
-                        <button className="px-3 py-1 text-sm text-gray-500 hover:bg-gray-50">3</button>
-                        <button className="px-3 py-1 text-sm text-gray-500 hover:bg-gray-50">4</button>
-                        <button className="px-3 py-1 text-sm text-gray-500 hover:bg-gray-50">5</button>
-                        <span className="text-gray-400">...</span>
-                        <button className="px-3 py-1 text-sm text-gray-500 hover:bg-gray-50">86</button>
-                        <button className="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50 font-medium">
-                            Next →
-                        </button>
-                    </div>
+                    {totalPages > 1 && (
+                        <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-center gap-2">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={`px-3 py-1 border border-gray-300 rounded-md text-sm ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50'}`}
+                            >
+                                ← Previous
+                            </button>
+
+                            {[...Array(totalPages)].map((_, index) => (
+                                <button
+                                    key={index + 1}
+                                    onClick={() => handlePageChange(index + 1)}
+                                    className={`px-3 py-1 rounded-md text-sm font-medium ${currentPage === index + 1
+                                        ? 'bg-gray-100 text-gray-700'
+                                        : 'text-gray-500 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
+
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className={`px-3 py-1 border border-gray-300 rounded-md text-sm font-medium ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:bg-gray-50'}`}
+                            >
+                                Next →
+                            </button>
+                        </div>
+                    )}
                 </div>
             </section>
         </div>
