@@ -24,7 +24,6 @@ export default function SecondarySidebar() {
             <div className="flex flex-col gap-6">
 
                 {/* Context Switcher - Mirrored from Design */}
-                {/* Context Switcher - Mirrored from Design */}
                 <Menu as="div" className="relative w-full text-left">
                     {({ open }) => (
                         <>

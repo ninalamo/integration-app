@@ -5,6 +5,8 @@ import {
     faQuestionCircle,
     faPuzzlePiece
 } from '@fortawesome/free-solid-svg-icons';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
 export default function TopHeader() {
     return (
@@ -40,9 +42,52 @@ export default function TopHeader() {
                 </button>
 
                 {/* User Avatar */}
-                <div className="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center text-white text-sm font-bold cursor-pointer">
-                    JA
-                </div>
+                {/* User Avatar */}
+                <Menu as="div" className="relative ml-2">
+                    <div>
+                        <Menu.Button className="w-8 h-8 bg-[#4285F4] rounded-[4px] flex items-center justify-center text-white text-sm font-bold cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            FM
+                        </Menu.Button>
+                    </div>
+                    <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                    >
+                        <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-gray-200">
+                            <div className="py-1">
+                                <Menu.Item>
+                                    {({ active }: { active: boolean }) => (
+                                        <a
+                                            href="#"
+                                            className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                                                } block px-4 py-3 text-sm`}
+                                        >
+                                            Account Settings
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                            </div>
+                            <div className="py-1">
+                                <Menu.Item>
+                                    {({ active }: { active: boolean }) => (
+                                        <a
+                                            href="#"
+                                            className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                                                } block px-4 py-3 text-sm`}
+                                        >
+                                            Sign Out
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                            </div>
+                        </Menu.Items>
+                    </Transition>
+                </Menu>
 
             </div>
         </header>
