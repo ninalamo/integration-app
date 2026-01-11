@@ -257,15 +257,17 @@ export default function Integrations() {
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={() => handleEditClick(conn)}
-                                            className="text-gray-400 hover:text-gray-600 border border-gray-300 rounded p-1 h-7 w-7 flex items-center justify-center"
+                                            className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 border border-slate-200 rounded-lg p-1 h-8 w-8 flex items-center justify-center transition-all active:scale-95"
+                                            title="Edit Connection"
                                         >
-                                            <FontAwesomeIcon icon={faPen} className="text-xs" />
+                                            <FontAwesomeIcon icon={faPen} className="text-[12px]" />
                                         </button>
                                         <button
                                             onClick={() => handleDeleteClick(conn)}
-                                            className="text-white bg-red-400 hover:bg-red-500 rounded p-1 h-7 w-7 flex items-center justify-center shadow-sm"
+                                            className="text-white bg-rose-500 hover:bg-rose-600 rounded-lg p-1 h-8 w-8 flex items-center justify-center shadow-sm transition-all active:scale-95"
+                                            title="Delete Connection"
                                         >
-                                            <FontAwesomeIcon icon={faTrash} className="text-xs" />
+                                            <FontAwesomeIcon icon={faTrash} className="text-[12px]" />
                                         </button>
                                     </div>
                                 </div>

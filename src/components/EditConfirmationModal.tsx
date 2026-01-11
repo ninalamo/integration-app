@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faExclamationTriangle, faPen } from '@fortawesome/free-solid-svg-icons';
 
 interface EditConfirmationModalProps {
     isOpen: boolean;
@@ -30,7 +30,7 @@ export default function EditConfirmationModal({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" />
                 </Transition.Child>
 
                 <div className="fixed inset-0 overflow-y-auto">
@@ -53,39 +53,42 @@ export default function EditConfirmationModal({
                                 </button>
 
                                 <div className="flex flex-col items-start gap-4">
-                                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-50 sm:mx-0 sm:h-10 sm:w-10">
-                                        <FontAwesomeIcon icon={faExclamation} className="text-yellow-400 text-lg" />
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 shadow-sm border border-amber-100">
+                                        <FontAwesomeIcon icon={faExclamationTriangle} className="text-amber-500 text-xl" />
                                     </div>
 
-                                    <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                                    <div className="mt-2 text-left">
                                         <Dialog.Title
                                             as="h3"
-                                            className="text-lg font-bold leading-6 text-gray-900"
+                                            className="text-xl font-bold leading-6 text-slate-900 flex items-center gap-2"
                                         >
+                                            <FontAwesomeIcon icon={faPen} className="text-slate-400 text-sm" />
                                             Change to Existing Connection
                                         </Dialog.Title>
                                         <div className="mt-2">
-                                            <p className="text-sm text-gray-900 mb-3 font-medium">
+                                            <p className="text-[15px] text-slate-600 mb-4 leading-relaxed">
                                                 Changes may disrupt functionality and impact data flow.
                                             </p>
-                                            <p className="text-sm text-gray-500">
-                                                Are you sure you want to make changes to {integrationName} "{connectionName}" connection?
-                                            </p>
+                                            <div className="bg-slate-50 border border-slate-100 rounded-lg p-4">
+                                                <p className="text-sm text-slate-500">
+                                                    Are you sure you want to make changes to <span className="font-semibold text-slate-900">{integrationName}</span> "{connectionName}" connection?
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="mt-8 flex gap-3 justify-end">
+                                <div className="mt-8 flex gap-3">
                                     <button
                                         type="button"
-                                        className="flex-1 justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        className="flex-1 justify-center rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 shadow-sm hover:bg-slate-50 transition-all focus:outline-none focus:ring-2 focus:ring-slate-200"
                                         onClick={onClose}
                                     >
                                         Undo
                                     </button>
                                     <button
                                         type="button"
-                                        className="flex-1 justify-center rounded-md border border-transparent bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
+                                        className="flex-1 justify-center rounded-lg border border-transparent bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-slate-800 transition-all hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
                                         onClick={onConfirm}
                                     >
                                         Save Changes
