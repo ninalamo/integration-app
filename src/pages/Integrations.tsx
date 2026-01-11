@@ -11,6 +11,13 @@ export default function Integrations() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Sorting and Filtering State
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortConfig, setSortConfig] = useState<{ key: keyof Connection | null; direction: 'asc' | 'desc' }>({
+        key: 'integration',
+        direction: 'asc',
+    });
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -38,10 +45,44 @@ export default function Integrations() {
         fetchData();
     }, []);
 
+    // Handle Sorting
+    const handleSort = (key: keyof Connection) => {
+        let direction: 'asc' | 'desc' = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    // Filter and Sort Connections
+    const filteredConnections = connections.filter((conn) =>
+        conn.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        conn.integration.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const sortedConnections = [...filteredConnections].sort((a, b) => {
+        if (!sortConfig.key) return 0;
+
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+
+        if (String(aValue).toLowerCase() < String(bValue).toLowerCase()) {
+            return sortConfig.direction === 'asc' ? -1 : 1;
+        }
+        if (String(aValue).toLowerCase() > String(bValue).toLowerCase()) {
+            return sortConfig.direction === 'asc' ? 1 : -1;
+        }
+        return 0;
+    });
+
+    // Helper to render sort arrow
+    const renderSortIcon = (key: keyof Connection) => {
+        if (sortConfig.key !== key) return null;
+        return <span className="ml-1">{sortConfig.direction === 'asc' ? '↑' : '↓'}</span>;
+    };
+
     if (loading) return <div className="p-6 text-gray-500">Loading services...</div>;
     if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
-
-
 
     return (
         <div className="max-w-7xl mx-auto">
@@ -77,6 +118,8 @@ export default function Integrations() {
                         type="text"
                         className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-400 focus:outline-none focus:placeholder-gray-500 focus:border-blue-300 focus:ring-blue-300 sm:text-sm transition duration-150 ease-in-out"
                         placeholder="Integration or Name"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
 
@@ -84,22 +127,29 @@ export default function Integrations() {
                 <div className="bg-white shadow border border-gray-200 sm:rounded-lg overflow-hidden">
 
                     {/* Header */}
-                    <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider grid grid-cols-12 gap-4 items-center">
-                        <div className="col-span-3 flex items-center cursor-pointer hover:text-gray-700">
-                            Integration
-                            <span className="ml-1">↓</span>
+                    <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider grid grid-cols-12 gap-4 items-center select-none">
+                        <div className="col-span-3 flex items-center cursor-pointer hover:text-gray-700" onClick={() => handleSort('integration')}>
+                            Integration {renderSortIcon('integration')}
                         </div>
-                        <div className="col-span-2">Name</div>
-                        <div className="col-span-1">Source</div>
-                        <div className="col-span-2">Entity/Group</div>
-                        <div className="col-span-1">Interval</div>
+                        <div className="col-span-2 cursor-pointer hover:text-gray-700" onClick={() => handleSort('name')}>
+                            Name {renderSortIcon('name')}
+                        </div>
+                        <div className="col-span-1 cursor-pointer hover:text-gray-700" onClick={() => handleSort('source')}>
+                            Source {renderSortIcon('source')}
+                        </div>
+                        <div className="col-span-2 cursor-pointer hover:text-gray-700" onClick={() => handleSort('entity')}>
+                            Entity/Group {renderSortIcon('entity')}
+                        </div>
+                        <div className="col-span-1 cursor-pointer hover:text-gray-700" onClick={() => handleSort('interval')}>
+                            Interval {renderSortIcon('interval')}
+                        </div>
                         <div className="col-span-2">Connector URL</div>
                         <div className="col-span-1">Instructions</div>
                     </div>
 
                     {/* Rows */}
                     <div className="divide-y divide-gray-200">
-                        {connections.map((conn) => (
+                        {sortedConnections.map((conn) => (
                             <div key={conn.id} className="px-6 py-4 grid grid-cols-12 gap-4 items-center hover:bg-gray-50 transition-colors text-sm text-gray-700">
                                 {/* Integration */}
                                 <div className="col-span-3 flex items-center gap-3">
