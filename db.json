@@ -1,0 +1,40 @@
+{
+    "connectors": [
+        {
+            "id": "a1b2c3d4-e5f6-4a5b-8c9d-1e2f3a4b5c6d",
+            "name": "Amazon QuickSight",
+            "description": "Amazon BI service to create dashboards and interactive visualisations.",
+            "icon": "/images/image 348.png"
+        },
+        {
+            "id": "b2c3d4e5-f6a7-5b6c-9d0e-2f3a4b5c6d7e",
+            "name": "Kafka",
+            "description": "Real-time data streaming, event-driven architectures and messaging systems.",
+            "icon": "/images/image 348 copy.png"
+        },
+        {
+            "id": "c3d4e5f6-a7b8-6c7d-0e1f-3a4b5c6d7e8f",
+            "name": "Power BI",
+            "description": "Microsoft BI service to create dashboards and data visualisations.",
+            "icon": "/images/image 348 copy 2.png"
+        },
+        {
+            "id": "d4e5f6a7-b8c9-7d8e-1f2a-4b5c6d7e8f9a",
+            "name": "Zapier",
+            "description": "Automation tool that connects various apps and services to automate workflows.",
+            "icon": "/images/image 351.png"
+        },
+        {
+            "id": "e5f6a7b8-c9d0-8e9f-2a3b-5c6d7e8f9a0b",
+            "name": "Tableau",
+            "description": "BI service that helps seeing and transforming data into actionable insights.",
+            "icon": "/images/snowflake_icon.png.png"
+        },
+        {
+            "id": "f6a7b8c9-d0e1-9f0a-3b4c-6d7e8f9a0b1c",
+            "name": "Measurabl",
+            "description": "Enable the push and pull of data to and from Measurabl via an API.",
+            "icon": "/images/measurabl_icon.jpeg.png"
+        }
+    ]
+}
