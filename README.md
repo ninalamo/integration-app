@@ -1,73 +1,78 @@
-# React + TypeScript + Vite
+# Integration App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a React application built with TypeScript and Vite, featuring a dual-sidebar layout and an integrations management dashboard.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Before starting, ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- [npm](https://www.npmjs.com/) (usually comes with Node.js)
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Installation
 
-## Expanding the ESLint configuration
+Clone the repository and install the dependencies:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd integration-app
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Environment Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create a `.env` file in the root directory and add the following:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_URL=http://localhost:4000
 ```
+
+### 3. Running the Application
+
+This project requires both the **API Server** and the **Frontend App** to be running simultaneously.
+
+#### Option A: Running separately (Manual)
+
+1. **Start the API Server (JSON Server):**
+   Open a terminal and run:
+   ```bash
+   npm run api
+   ```
+   The API will be available at `http://localhost:4000`.
+
+2. **Start the Frontend App (Vite):**
+   Open another terminal and run:
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:5173` (or the port shown in your terminal).
+
+## Building for Production
+
+To build the application for production:
+
+```bash
+npm run build
+```
+
+The output will be in the `dist/` directory. You can preview the production build locally using:
+
+```bash
+npm run preview
+```
+
+## Project Structure
+
+- `src/components`: Reusable UI components.
+- `src/pages`: Main page components.
+- `src/layout`: Sidebar and Header layout components.
+- `src/constants`: Centralized application constants (API endpoints, branding, etc.).
+- `src/services`: API and data services.
+- `db.json`: Local database file for the JSON Server.
+
+## Features
+
+- **Integrations Dashboard**: Manage connections with search, sorting, and pagination.
+- **Skeleton Loading**: Independent loading states for connectors and existing connections.
+- **Premium UI**: Modern design with Tailwind CSS and Font Awesome icons.
+- **Confirmation Modals**: Secure workflows for editing and deleting connections.
