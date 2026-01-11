@@ -24,7 +24,7 @@ export default function PrimarySidebar() {
                 <SidebarIcon icon={faInbox} label="Collect" />
                 <SidebarIcon icon={faClipboardCheck} label="Reviews" />
                 <SidebarIcon icon={faTree} label="Carbon" />
-                <SidebarIcon icon={faBolt} label="Utilities" active />
+                <SidebarIcon icon={faBolt} label="Utilities" />
                 <SidebarIcon icon={faFileAlt} label="Reports" />
                 <SidebarIcon icon={faTasks} label="Actions" />
             </nav>
@@ -44,7 +44,7 @@ export default function PrimarySidebar() {
 
 function SidebarIcon({ icon, label, active = false }: { icon: any; label: string; active?: boolean }) {
     return (
-        <div className={`flex flex-col items-center gap-1 cursor-pointer group w-full py-2 ${active ? 'text-[#66bb00]' : 'hover:text-white'}`}>
+        <div className={`flex flex-col items-center gap-1 group w-full py-2 ${active ? 'text-[#66bb00] cursor-pointer' : 'text-gray-500 cursor-default'}`}>
             <FontAwesomeIcon icon={icon} className="text-xl" />
             <span className="text-[10px] font-medium">{label}</span>
         </div>

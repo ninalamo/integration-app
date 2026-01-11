@@ -3,7 +3,8 @@ import { getApiUrl } from '../services/api';
 import ServiceCard from '../components/ServiceCard';
 import type { IntegrationService, Connection } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faExternalLinkAlt, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faExternalLinkAlt, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
 import EditConfirmationModal from '../components/EditConfirmationModal';
 
@@ -143,7 +144,7 @@ export default function Integrations() {
     if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
 
     return (
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full">
             {/* Services Section */}
             <section className="mb-12">
                 <div className="mb-6">
@@ -151,7 +152,7 @@ export default function Integrations() {
                     <p className="text-gray-500 text-sm mt-1">Connect BraveGen to other tools you use.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {services.map((service) => (
                         <ServiceCard
                             key={service.name}
@@ -165,114 +166,124 @@ export default function Integrations() {
 
             {/* Existing Connections Section */}
             <section className="pb-20">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Existing Connections</h2>
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                    <h2 className="text-lg font-bold text-gray-900">Existing Connections</h2>
 
-                {/* Search */}
-                <div className="relative mb-6 max-w-md">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
+                    {/* Search */}
+                    <div className="relative w-full max-w-sm">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
+                        </div>
+                        <input
+                            type="text"
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-400 focus:outline-none focus:placeholder-gray-500 focus:border-blue-400 focus:ring-1 focus:ring-blue-400 sm:text-sm transition-all shadow-sm"
+                            placeholder="Search by Integration or Name..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
-                    <input
-                        type="text"
-                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-400 focus:outline-none focus:placeholder-gray-500 focus:border-blue-300 focus:ring-blue-300 sm:text-sm transition duration-150 ease-in-out"
-                        placeholder="Integration or Name"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
                 </div>
 
-                {/* Table */}
-                <div className="bg-white shadow border border-gray-200 sm:rounded-lg overflow-hidden">
-
-                    {/* Header */}
-                    <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider grid grid-cols-12 gap-4 items-center select-none">
-                        <div className="col-span-3 flex items-center cursor-pointer hover:text-gray-700" onClick={() => handleSort('integration')}>
-                            Integration {renderSortIcon('integration')}
-                        </div>
-                        <div className="col-span-2 cursor-pointer hover:text-gray-700" onClick={() => handleSort('name')}>
-                            Name {renderSortIcon('name')}
-                        </div>
-                        <div className="col-span-1 cursor-pointer hover:text-gray-700" onClick={() => handleSort('source')}>
-                            Source {renderSortIcon('source')}
-                        </div>
-                        <div className="col-span-2 cursor-pointer hover:text-gray-700" onClick={() => handleSort('entity')}>
-                            Entity/Group {renderSortIcon('entity')}
-                        </div>
-                        <div className="col-span-1 cursor-pointer hover:text-gray-700" onClick={() => handleSort('interval')}>
-                            Interval {renderSortIcon('interval')}
-                        </div>
-                        <div className="col-span-2">Connector URL</div>
-                        <div className="col-span-1">Instructions</div>
-                    </div>
-
-                    {/* Rows */}
-                    <div className="divide-y divide-gray-200">
-                        {currentItems.map((conn) => (
-                            <div key={conn.id} className="px-6 py-4 grid grid-cols-12 gap-4 items-center hover:bg-gray-50 transition-colors text-sm text-gray-700">
-                                {/* Integration */}
-                                <div className="col-span-3 flex items-center gap-3">
-                                    <div className="w-6 h-6 flex items-center justify-center bg-white rounded-sm border border-gray-100 p-0.5 shrink-0">
-                                        <img src={conn.icon} alt="" className="w-full h-full object-contain" />
-                                    </div>
-                                    <span className="truncate" title={conn.integration}>{conn.integration}</span>
-                                </div>
-
-                                {/* Name */}
-                                <div className="col-span-2 text-blue-500 hover:underline cursor-pointer truncate" title={conn.name}>
-                                    {conn.name}
-                                </div>
-
-                                {/* Source Tag */}
-                                <div className="col-span-1">
-                                    <span className={`px-2 py-1 rounded text-xs font-medium border ${conn.source === 'Carbon'
-                                        ? 'bg-orange-50 text-orange-600 border-orange-200'
-                                        : 'bg-teal-50 text-teal-600 border-teal-200'
-                                        }`}>
-                                        {conn.source}
-                                    </span>
-                                </div>
-
-                                {/* Entity */}
-                                <div className="col-span-2 truncate" title={conn.entity}>
-                                    {conn.entity}
-                                </div>
-
-                                {/* Interval */}
-                                <div className="col-span-1 text-gray-500">
-                                    {conn.interval}
-                                </div>
-
-                                {/* Connector URL */}
-                                <div className="col-span-2">
-                                    <span className="text-blue-500 hover:text-blue-700 cursor-pointer text-xs">Copy to Clipboard</span>
-                                </div>
-
-                                {/* Instructions & Actions */}
-                                <div className="col-span-1 flex items-center justify-between">
-                                    <div className="flex items-center gap-1 text-blue-500 hover:text-blue-700 cursor-pointer">
-                                        <span>View</span>
-                                        <FontAwesomeIcon icon={faExternalLinkAlt} className="text-[10px]" />
-                                    </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleEditClick(conn)}
-                                            className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 border border-slate-200 rounded-lg p-1 h-8 w-8 flex items-center justify-center transition-all active:scale-95"
-                                            title="Edit Connection"
-                                        >
-                                            <FontAwesomeIcon icon={faPen} className="text-[12px]" />
-                                        </button>
-                                        <button
-                                            onClick={() => handleDeleteClick(conn)}
-                                            className="text-white bg-rose-500 hover:bg-rose-600 rounded-lg p-1 h-8 w-8 flex items-center justify-center shadow-sm transition-all active:scale-95"
-                                            title="Delete Connection"
-                                        >
-                                            <FontAwesomeIcon icon={faTrash} className="text-[12px]" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                {/* Table Container */}
+                <div className="bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse min-w-[1000px]">
+                            <thead>
+                                <tr className="bg-gray-50/80 border-b border-gray-200">
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('integration')}>
+                                        <div className="flex items-center gap-1">
+                                            Integration {renderSortIcon('integration')}
+                                        </div>
+                                    </th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('name')}>
+                                        <div className="flex items-center gap-1">
+                                            Name {renderSortIcon('name')}
+                                        </div>
+                                    </th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('source')}>
+                                        <div className="flex items-center gap-1">
+                                            Source {renderSortIcon('source')}
+                                        </div>
+                                    </th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('entity')}>
+                                        <div className="flex items-center gap-1">
+                                            Entity/Group {renderSortIcon('entity')}
+                                        </div>
+                                    </th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => handleSort('interval')}>
+                                        <div className="flex items-center gap-1">
+                                            Interval {renderSortIcon('interval')}
+                                        </div>
+                                    </th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider font-semibold">Connector URL</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Instructions</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                                {currentItems.map((conn) => (
+                                    <tr key={conn.id} className="hover:bg-slate-50 transition-colors group">
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 flex items-center justify-center bg-white rounded-lg border border-gray-100 p-1 shadow-sm group-hover:border-gray-200 transition-all">
+                                                    <img src={conn.icon} alt="" className="w-full h-full object-contain" />
+                                                </div>
+                                                <span className="text-sm font-medium text-slate-700">{conn.integration}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm font-semibold text-blue-600 hover:text-blue-800 cursor-pointer transition-colors underline decoration-blue-200 hover:decoration-blue-800 underline-offset-4">
+                                                {conn.name}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${conn.source === 'Carbon'
+                                                ? 'bg-orange-50 text-orange-700 border-orange-100'
+                                                : 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                                                }`}>
+                                                <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${conn.source === 'Carbon' ? 'bg-orange-400' : 'bg-emerald-400'}`}></span>
+                                                {conn.source}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                            {conn.entity}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                                            {conn.interval}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                            <button className="text-blue-600 hover:text-blue-800 font-medium text-xs flex items-center gap-1 transition-colors">
+                                                Copy to Clipboard
+                                            </button>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center gap-1.5 text-blue-600 hover:text-blue-800 cursor-pointer font-semibold text-xs transition-colors">
+                                                <span>View</span>
+                                                <FontAwesomeIcon icon={faExternalLinkAlt} className="text-[10px]" />
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center justify-end gap-2">
+                                                <button
+                                                    onClick={() => handleEditClick(conn)}
+                                                    className="text-slate-500 hover:text-blue-600 bg-white border border-slate-200 hover:border-blue-200 rounded-lg p-1.5 h-8 w-8 flex items-center justify-center transition-all shadow-sm hover:shadow-md active:scale-95"
+                                                    title="Edit Connection"
+                                                >
+                                                    <FontAwesomeIcon icon={faPen} className="text-[12px]" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteClick(conn)}
+                                                    className="text-white bg-red-600 hover:bg-red-700 rounded-lg p-1.5 h-8 w-8 flex items-center justify-center transition-all shadow-sm hover:shadow-md active:scale-95 border border-red-700"
+                                                    title="Delete Connection"
+                                                >
+                                                    <FontAwesomeIcon icon={faTrashAlt} className="text-[12px]" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
 
                     {/* Pagination */}
