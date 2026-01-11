@@ -7,8 +7,11 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Integrations />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="settings">
+            <Route path="integrations" element={<Integrations />} />
+          </Route>
+          <Route index element={<Navigate to="/settings/integrations" replace />} />
+          <Route path="*" element={<Navigate to="/settings/integrations" replace />} />
         </Route>
       </Routes>
     </BrowserRouter>

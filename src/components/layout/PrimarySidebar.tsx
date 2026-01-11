@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavLink } from 'react-router-dom';
 import {
     faChartLine,
     faInbox,
@@ -29,7 +30,11 @@ export default function PrimarySidebar() {
             </nav>
 
             <div className="mt-auto mb-4">
-                <SidebarIcon icon={faCog} label="Settings" />
+                <NavLink to="/settings/integrations">
+                    {({ isActive }: { isActive: boolean }) => (
+                        <SidebarIcon icon={faCog} label="Settings" active={isActive} />
+                    )}
+                </NavLink>
             </div>
         </div>
     );
